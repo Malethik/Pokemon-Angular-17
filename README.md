@@ -1,27 +1,34 @@
-# Pokedex
+# Week 3 - Challenge WeekEnd
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
+![Logo Pokémon](pokemon-logo.svg)
 
-## Development server
+## Pokémon
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Esta aplicación tendrá inicialmente 2 páginas:
 
-## Code scaffolding
+- Todos los pokémon
+- Detalle de pokémon
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+El listado de todos los pokémon se alimentará de la [PokéAPI](https://pokeapi.co/), y deberá ir paginado. El listado incluirá el nombre del pokemon y **su imagen** y deberá ir acompañado de dos botones, para avanzar y retroceder de página. También debe mostrar el total de pokèmon mostrados vs. el total de pokèmon que existen (p.e. 10/1000).
 
-## Build
+El usuario debería poder ir al detalle de un pokémon, donde se le mostrarán más datos.
+A esta página de detalle se llega pasando una id por la URL (la id del pokémon que queremos ver).
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Extra
 
-## Running unit tests
+Añadir una tercera página:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Mis pokémon
 
-## Running end-to-end tests
+El usuario debe poder añadir los pokémon que quiera a su listado local. El listado de Mis pokémon se alimentará de [una API local/privada]. El usuario debería poder eliminar pokémon de su listado local, y también modificar algún/unos dato/s.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Desde los favoritos, también se puede acceder a la página de detalle.
 
-## Further help
+## Features
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Opcional: BEM + sass
+Vite
+HTML semántico
+Testing
+
+Pista Promise.all(), Promise.race()...
