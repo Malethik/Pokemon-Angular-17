@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
-
-// Import the interface definitions
 import { Pokemon, PokemonResults } from '../../model/pokemon';
 
 @Injectable({
