@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Pokemon } from '../../core/model/pokemon';
 
 @Component({
   selector: 'app-card',
@@ -6,13 +7,21 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <div class="pokemon">
-      <p>PokemonID</p>
-      <img src="../assets/heart.png" alt="" class="hearts" />
-      <p>Pokemon name</p>
-      <p>Type: Pokemon type</p>
+      <p></p>
+      <img
+        src="../assets/heart.png"
+        alt=""
+        class="hearts"
+        height="10"
+        width="10"
+      />
+      <p>{{ pokemonInfo.name }}</p>
+      <p>Type: {{ pokemonInfo.id }}</p>
       <img src="" alt="" />
     </div>
   `,
   styles: ``,
 })
-export class CardComponent {}
+export class CardComponent {
+  @Input() pokemonInfo!: any;
+}
