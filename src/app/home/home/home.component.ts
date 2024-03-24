@@ -20,7 +20,7 @@ import { Pokemon } from '../../core/model/pokemon';
     </div>`,
   styles: ``,
 })
-export default class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit {
   pokemonList: Pokemon[] = [];
   page = 0;
   private Apiservice = inject(ApiService);

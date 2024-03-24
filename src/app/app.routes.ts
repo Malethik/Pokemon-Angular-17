@@ -5,7 +5,6 @@ export const routes: Routes = [
   {
     path: 'Home',
     title: 'HOME',
-    loadComponent: () => import('../app/home/home/home.component'),
   },
   {
     path: 'my_pokemon',
