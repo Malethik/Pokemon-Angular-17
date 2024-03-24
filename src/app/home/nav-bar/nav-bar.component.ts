@@ -24,7 +24,9 @@ export class NavBarComponent {
   private Apiservice = inject(ApiService);
 
   loadNextPage(): void {
-    this.Apiservice.updateOffset(20);
-    console.log(this.Apiservice.offset, this.Apiservice.offset$); // Increase offset by 20 (or any desired value)
+    this.Apiservice.offset$.subscribe((offset) => {
+      this.Apiservice.updateOffset(offset + 20);
+      console.log('Currente offset:', this.Apiservice.offset$);
+    });
   }
 }

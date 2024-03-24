@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, toArray } from 'rxjs/operators';
+import { map, mergeMap, switchMap, toArray } from 'rxjs/operators';
 import { Pokemon, PokemonResults } from '../../model/pokemon';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
@@ -26,14 +26,15 @@ export class ApiService {
     return this.http.get<Pokemon>(`${this.APIURL}pokemon/${pokemonName}`);
   }
 
-  getPokemonList(
-    offset: number = 0,
-    limit: number = 20
-  ): Observable<Pokemon[]> {
-    const url = `${this.APIURL}pokemon/?offset=${offset}&limit=${limit}`;
-    return this.http
-      .get<PokemonResults>(url)
-      .pipe(map((data: PokemonResults) => data.results));
+  getPokemonList(limit: number = 20): Observable<Pokemon[]> {
+    return this.offset$.pipe(
+      switchMap((offset) => {
+        const url = `${this.APIURL}pokemon/?offset=${offset}&limit=${limit}`;
+        return this.http
+          .get<PokemonResults>(url)
+          .pipe(map((data: PokemonResults) => data.results));
+      })
+    );
   }
 
   fetchDetailedPokemonData(pokemonList: Pokemon[]): Observable<Pokemon[]> {
