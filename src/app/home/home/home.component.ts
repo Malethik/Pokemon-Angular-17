@@ -20,7 +20,7 @@ import { Pokemon } from '../../core/model/pokemon';
     </div>`,
   styles: ``,
 })
-export class HomeComponent implements OnInit {
+export default class HomeComponent implements OnInit {
   pokemonList: Pokemon[] = [];
   page = 0;
   private Apiservice = inject(ApiService);
@@ -35,6 +35,9 @@ export class HomeComponent implements OnInit {
     this.page -= 20;
     this.ngOnInit();
   }
+  /*  goToDetails(id: number) {
+    this.router.navigate([`/poke_details/${id}`]);
+  } */
 
   ngOnInit(): void {
     this.apiService.getPokemonList(this.page, 20).subscribe((pokemonList) => {
