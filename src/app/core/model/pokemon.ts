@@ -1,8 +1,27 @@
-export interface Pokemon {
+/* export interface Pokemon {
   name: string;
   url: string;
+} */
+export interface Pokemon {
+  id: number;
+  num: string;
+  name: string;
+  img: string;
+  type: Type[];
+  height: string;
+  weight: string;
+  candy: string;
+  candy_count?: number;
+  egg: Egg;
+  spawn_chance: number;
+  avg_spawns: number;
+  spawn_time: string;
+  multipliers: number[] | null;
+  weaknesses: Type[];
+  next_evolution?: Evolution[];
+  prev_evolution?: Evolution[];
+  // Add any additional properties you want to include
 }
-
 export interface PokemonResults {
   count: number;
   next: string;
@@ -13,7 +32,7 @@ export interface Pokedex {
   pokemon: Pokemon[];
 }
 
-export interface Pokemon {
+export interface PokemonDetails {
   id: number;
   num: string;
   name: string;

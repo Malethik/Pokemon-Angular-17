@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
 import { Pokemon, PokemonResults } from '../../model/pokemon';
-
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -11,10 +11,15 @@ export class ApiService {
   private APIURL = 'https://pokeapi.co/api/v2/';
   offset = 0;
   pokemonList: Pokemon[] = [];
+  private pokemonListSubject = new BehaviorSubject<Pokemon[]>([]);
+  pokemonList$ = this.pokemonListSubject.asObservable();
+  private offsetSubject = new BehaviorSubject<number>(0);
+  offset$ = this.offsetSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   updateOffset(newOffset: number): void {
-    this.offset = newOffset;
+    this.offsetSubject.next(newOffset);
   }
 
   getPokemonDetail(pokemonName: string): Observable<Pokemon> {
@@ -39,12 +44,17 @@ export class ApiService {
   }
 
   getData() {
-    this.getPokemonList().subscribe((pokemonList) => {
-      this.fetchDetailedPokemonData(pokemonList).subscribe(
-        (detailedPokemonList) => {
-          this.pokemonList = detailedPokemonList;
-        }
-      );
-    });
+    this.getPokemonList().subscribe(
+      (pokemonList) => {
+        this.fetchDetailedPokemonData(pokemonList).subscribe(
+          (detailedPokemonList) => {
+            this.pokemonListSubject.next(detailedPokemonList);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error fetching Pokemon list:', error);
+      }
+    );
   }
 }

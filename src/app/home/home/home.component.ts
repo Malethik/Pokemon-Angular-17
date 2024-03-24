@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Injector, OnInit, inject } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { ApiService } from '../../core/service/api/api.service';
 import { Pokemon } from '../../core/model/pokemon';
@@ -17,17 +17,19 @@ import { Pokemon } from '../../core/model/pokemon';
 export class HomeComponent implements OnInit {
   pokemonList: Pokemon[] = [];
   private Apiservice = inject(ApiService);
+
   constructor(private apiService: ApiService) {
     this.Apiservice.getData();
   }
 
   ngOnInit(): void {
-    this.apiService.getPokemonList().subscribe((pokemonList) => {
-      this.apiService
-        .fetchDetailedPokemonData(pokemonList)
-        .subscribe((detailedPokemonList) => {
-          this.pokemonList = detailedPokemonList;
-        });
-    });
+    this.apiService.pokemonList$.subscribe(
+      (pokemonList) => {
+        this.pokemonList = pokemonList;
+      },
+      (error) => {
+        console.error('Error fetching Pokemon list:', error);
+      }
+    );
   }
 }

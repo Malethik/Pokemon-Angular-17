@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Injector, OnInit, inject } from '@angular/core';
 import { ApiService } from '../../core/service/api/api.service';
 import { Pokemon } from '../../core/model/pokemon';
 
@@ -17,18 +17,14 @@ import { Pokemon } from '../../core/model/pokemon';
   `,
   styles: ``,
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent {
   offset = 0;
   limit = 20;
   pokemonList: Pokemon[] = [];
   private Apiservice = inject(ApiService);
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
   loadNextPage(): void {
-    this.Apiservice.updateOffset(this.Apiservice.offset + 20);
-    console.log('prova');
+    this.Apiservice.updateOffset(20);
+    console.log(this.Apiservice.offset, this.Apiservice.offset$); // Increase offset by 20 (or any desired value)
   }
 }
