@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { ApiService } from '../../core/service/api/api.service';
 import { Pokemon } from '../../core/model/pokemon';
@@ -16,8 +16,10 @@ import { Pokemon } from '../../core/model/pokemon';
 })
 export class HomeComponent implements OnInit {
   pokemonList: Pokemon[] = [];
-
-  constructor(private apiService: ApiService) {}
+  private Apiservice = inject(ApiService);
+  constructor(private apiService: ApiService) {
+    this.Apiservice.getData();
+  }
 
   ngOnInit(): void {
     this.apiService.getPokemonList().subscribe((pokemonList) => {
