@@ -9,8 +9,9 @@ import { Pokemon } from '../../core/model/pokemon';
     <div class="pokemon">
       <p></p>
 
-      <p>{{ pokemonInfo.name }}</p>
+      <p>{{ pokemonInfo.name.toUpperCase() }}</p>
       <p>Weight: {{ pokemonInfo.weight }} Gr</p>
+      <p>Height: {{ pokemonInfo.height }} Cm</p>
       <img
         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/{{
           pokemonInfo.id

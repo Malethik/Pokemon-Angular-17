@@ -9,16 +9,25 @@ import { Pokemon, PokemonResults } from '../../model/pokemon';
 })
 export class ApiService {
   private APIURL = 'https://pokeapi.co/api/v2/';
-
+  offset = 0;
+  pokemonList: Pokemon[] = [];
   constructor(private http: HttpClient) {}
+
+  updateOffset(newOffset: number): void {
+    this.offset = newOffset;
+  }
 
   getPokemonDetail(pokemonName: string): Observable<Pokemon> {
     return this.http.get<Pokemon>(`${this.APIURL}pokemon/${pokemonName}`);
   }
 
-  getPokemonList(): Observable<Pokemon[]> {
+  getPokemonList(
+    offset: number = 0,
+    limit: number = 20
+  ): Observable<Pokemon[]> {
+    const url = `${this.APIURL}pokemon/?offset=${offset}&limit=${limit}`;
     return this.http
-      .get<PokemonResults>(`${this.APIURL}pokemon/`)
+      .get<PokemonResults>(url)
       .pipe(map((data: PokemonResults) => data.results));
   }
 
@@ -27,5 +36,15 @@ export class ApiService {
       mergeMap((pokemon) => this.getPokemonDetail(pokemon.name)),
       toArray()
     );
+  }
+
+  getData() {
+    this.getPokemonList().subscribe((pokemonList) => {
+      this.fetchDetailedPokemonData(pokemonList).subscribe(
+        (detailedPokemonList) => {
+          this.pokemonList = detailedPokemonList;
+        }
+      );
+    });
   }
 }
