@@ -35,6 +35,9 @@ export class HomeComponent implements OnInit {
     this.page -= 20;
     this.ngOnInit();
   }
+  /*  goToDetails(id: number) {
+    this.router.navigate([`/poke_details/${id}`]);
+  } */
 
   ngOnInit(): void {
     this.apiService.getPokemonList(this.page, 20).subscribe((pokemonList) => {
