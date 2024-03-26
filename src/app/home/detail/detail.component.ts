@@ -4,7 +4,11 @@ import { Component } from '@angular/core';
   selector: 'app-detail',
   standalone: true,
   imports: [],
-  template: ` <p>detail works!</p> `,
+  template: `
+    <div>
+      <h2>POKEMON NAME</h2>
+    </div>
+  `,
   styles: ``,
 })
 export default class DetailComponent {}

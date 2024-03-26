@@ -25,6 +25,7 @@ export class ApiService {
     offset: number = 0,
     limit: number = 20
   ): Observable<Pokemon[]> {
+    
     const url = `${this.APIURL}pokemon/?offset=${offset}&limit=${limit}`;
     return this.http
       .get<PokemonResults>(url)
