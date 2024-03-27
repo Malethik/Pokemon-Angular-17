@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { Pokemon } from '../../core/model/pokemon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
   standalone: true,
   imports: [],
   template: `
-    <div class="pokemon">
+    <div class="pokemon" (click)="onClickPokemonImage()">
       <p></p>
 
       <p>{{ pokemonInfo.name.toUpperCase() }}</p>
@@ -28,6 +29,10 @@ import { Pokemon } from '../../core/model/pokemon';
 })
 export class CardComponent {
   @Input() pokemonInfo!: Pokemon;
+  constructor(private router: Router) {}
+  onClickPokemonImage(): void {
+    this.router.navigate(['DETAILS']);
+  }
 }
 /*  https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1000.png */
 
