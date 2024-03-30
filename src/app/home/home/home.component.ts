@@ -2,13 +2,15 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { ApiService } from '../../core/service/api/api.service';
 import { Pokemon } from '../../core/model/pokemon';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import DetailComponent from '../detail/detail.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CardComponent],
-  template: ` <div class="navBar">
+  imports: [CardComponent, DetailComponent, HomeComponent],
+  template: `
+    <div class="navBar">
       <button type="button" class="previus" (click)="loadPreviusPage()">
         PREVIUS
       </button>
@@ -18,20 +20,19 @@ import { Router } from '@angular/router';
     </div>
 
     <div class="main">
-      @for (item of pokemonList ; track $index) {
+      @for (item of pokemonList ; track item.id) {
       <app-card [pokemonInfo]="item" />
       }
-    </div>`,
+    </div>
+  `,
   styles: ``,
 })
-export class HomeComponent implements OnInit {
+export default class HomeComponent implements OnInit {
   pokemonList: Pokemon[] = [];
 
   page = 0;
   private Apiservice = inject(ApiService);
-  constructor(private apiService: ApiService) {
-    this.Apiservice.getData();
-  }
+  constructor() {}
 
   loadNextPage() {
     this.page += 20;
@@ -43,12 +44,12 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.apiService.getPokemonList(this.page, 20).subscribe((pokemonList) => {
-      this.apiService
-        .fetchDetailedPokemonData(pokemonList)
-        .subscribe((detailedPokemonList) => {
+    this.Apiservice.getPokemonList(this.page, 20).subscribe((pokemonList) => {
+      this.Apiservice.fetchDetailedPokemonData(pokemonList).subscribe(
+        (detailedPokemonList) => {
           this.pokemonList = detailedPokemonList;
-        });
+        }
+      );
     });
   }
 }

@@ -9,6 +9,7 @@ import { Pokemon, PokemonResults } from '../../model/pokemon';
 })
 export class ApiService {
   private APIURL = 'https://pokeapi.co/api/v2/';
+  public URL = 'https://pokeapi.co/api/v2/pokemon/';
   offset = 0;
   pokemonList: Pokemon[] = [];
   constructor(private http: HttpClient) {}
@@ -25,7 +26,6 @@ export class ApiService {
     offset: number = 0,
     limit: number = 20
   ): Observable<Pokemon[]> {
-    
     const url = `${this.APIURL}pokemon/?offset=${offset}&limit=${limit}`;
     return this.http
       .get<PokemonResults>(url)

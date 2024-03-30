@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { Pokemon } from '../../core/model/pokemon';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-card',
   standalone: true,
   imports: [],
   template: `
-    <div class="pokemon" (click)="onClickPokemonImage()">
-      <p></p>
+    <div class="pokemon" (click)="goDetails(pokemonInfo.id)">
+      <p>{{ pokemonInfo.id }}</p>
 
       <p>{{ pokemonInfo.name.toUpperCase() }}</p>
       <p>Weight: {{ pokemonInfo.weight }} Gr</p>
@@ -30,10 +30,11 @@ import { Router } from '@angular/router';
 export class CardComponent {
   @Input() pokemonInfo!: Pokemon;
   constructor(private router: Router) {}
-  onClickPokemonImage(): void {
-    this.router.navigate(['DETAILS']);
+  goDetails(id: number) {
+    this.router.navigate([`/details/${id}`]);
   }
 }
+
 /*  https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1000.png */
 
 /* https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1000.png */
