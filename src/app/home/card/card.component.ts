@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Pokemon } from '../../core/model/pokemon';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',

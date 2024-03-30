@@ -18,7 +18,8 @@ export interface Pokemon {
   num: string;
   name: string;
   img: string;
-  type: Type[];
+  types: Types[];
+  stats: Stat[];
   height: string;
   weight: string;
   candy: string;
@@ -32,7 +33,10 @@ export interface Pokemon {
   next_evolution?: Evolution[];
   prev_evolution?: Evolution[];
 }
-
+export interface Stat {
+  base_stat: number;
+  effort: number;
+}
 export enum Egg {
   NotInEggs = 'Not in Eggs',
   OmanyteCandy = 'Omanyte Candy',
@@ -65,4 +69,31 @@ export enum Type {
   Rock = 'Rock',
   Steel = 'Steel',
   Water = 'Water',
+}
+export interface Ability2 {
+  ability: Ability;
+  is_hidden: boolean;
+  slot: number;
+}
+export interface Ability {
+  name: string;
+  url: string;
+}
+export interface Move {
+  move: Ability;
+  version_group_details: Versiongroupdetail[];
+}
+export interface Versiongroupdetail {
+  level_learned_at: number;
+  move_learn_method: Ability;
+  version_group: Ability;
+}
+export interface Stat {
+  base_stat: number;
+  effort: number;
+  stat: Ability;
+}
+export interface Types {
+  slot: number;
+  type: Ability;
 }

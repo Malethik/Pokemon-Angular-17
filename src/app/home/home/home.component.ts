@@ -1,16 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CardComponent } from '../card/card.component';
-import { ApiService } from '../../core/service/api/api.service';
+import { StateService } from '../../core/service/storage/storage.service';
 import { Pokemon } from '../../core/model/pokemon';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CardComponent } from '../card/card.component';
 import DetailComponent from '../detail/detail.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CardComponent, DetailComponent, HomeComponent],
-  template: `
-    <div class="navBar">
+
+  template: ` <div class="navBar">
       <button type="button" class="previus" (click)="loadPreviusPage()">
         PREVIUS
       </button>
@@ -23,33 +22,37 @@ import DetailComponent from '../detail/detail.component';
       @for (item of pokemonList ; track item.id) {
       <app-card [pokemonInfo]="item" />
       }
-    </div>
-  `,
+    </div>`,
   styles: ``,
 })
 export default class HomeComponent implements OnInit {
   pokemonList: Pokemon[] = [];
-
   page = 0;
-  private Apiservice = inject(ApiService);
+  public stateService = inject(StateService);
   constructor() {}
+
+  ngOnInit(): void {
+    this.fetchPokemonList();
+  }
 
   loadNextPage() {
     this.page += 20;
-    this.ngOnInit();
-  }
-  loadPreviusPage() {
-    this.page -= 20;
-    this.ngOnInit();
+    this.fetchPokemonList();
   }
 
-  ngOnInit(): void {
-    this.Apiservice.getPokemonList(this.page, 20).subscribe((pokemonList) => {
-      this.Apiservice.fetchDetailedPokemonData(pokemonList).subscribe(
-        (detailedPokemonList) => {
-          this.pokemonList = detailedPokemonList;
-        }
+  loadPreviusPage() {
+    if (this.page >= 20) {
+      this.page -= 20;
+      this.fetchPokemonList();
+    }
+  }
+
+  private fetchPokemonList() {
+    this.stateService.fetchPokemonList(this.page, 20).subscribe(() => {
+      this.stateService.pokemonList$.subscribe(
+        (pokemonList) => (this.pokemonList = pokemonList)
       );
+      console.log(this.pokemonList);
     });
   }
 }

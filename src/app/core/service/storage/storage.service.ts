@@ -36,4 +36,13 @@ export class StateService {
       pokemonList.map((pokemon) => this.http.get<Pokemon>(pokemon.url))
     );
   }
+  getPokemonById(id: number): Observable<Pokemon> {
+    const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+    return this.http.get<Pokemon>(url);
+  }
+
+  getPokemonSpeciesDetailsById(id: number): Observable<any> {
+    const url = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
+    return this.http.get<any>(url);
+  }
 }
