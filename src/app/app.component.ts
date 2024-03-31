@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import { HomeComponent } from './home/home/home.component';
 import { NavBarComponent } from './home/nav-bar/nav-bar.component';
+import DetailComponent from './home/detail/detail.component';
+import HomeComponent from './home/home/home.component';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +14,12 @@ import { NavBarComponent } from './home/nav-bar/nav-bar.component';
   imports: [
     RouterModule,
     RouterOutlet,
+    RouterLink,
     HeaderComponent,
     FooterComponent,
-    HomeComponent,
     NavBarComponent,
+    DetailComponent,
+    HomeComponent,
   ],
 })
 export class AppComponent {

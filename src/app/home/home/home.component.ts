@@ -1,13 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CardComponent } from '../card/card.component';
-import { ApiService } from '../../core/service/api/api.service';
+import { StateService } from '../../core/service/storage/storage.service';
 import { Pokemon } from '../../core/model/pokemon';
-import { Router } from '@angular/router';
+import { CardComponent } from '../card/card.component';
+import DetailComponent from '../detail/detail.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CardComponent],
+  imports: [CardComponent, DetailComponent, HomeComponent],
+
   template: ` <div class="navBar">
       <button type="button" class="previus" (click)="loadPreviusPage()">
         PREVIUS
@@ -18,37 +19,40 @@ import { Router } from '@angular/router';
     </div>
 
     <div class="main">
-      @for (item of pokemonList ; track $index) {
+      @for (item of pokemonList ; track item.id) {
       <app-card [pokemonInfo]="item" />
       }
     </div>`,
   styles: ``,
 })
-export class HomeComponent implements OnInit {
+export default class HomeComponent implements OnInit {
   pokemonList: Pokemon[] = [];
-
   page = 0;
-  private Apiservice = inject(ApiService);
-  constructor(private apiService: ApiService) {
-    this.Apiservice.getData();
+  public stateService = inject(StateService);
+  constructor() {}
+
+  ngOnInit(): void {
+    this.fetchPokemonList();
   }
 
   loadNextPage() {
     this.page += 20;
-    this.ngOnInit();
-  }
-  loadPreviusPage() {
-    this.page -= 20;
-    this.ngOnInit();
+    this.fetchPokemonList();
   }
 
-  ngOnInit(): void {
-    this.apiService.getPokemonList(this.page, 20).subscribe((pokemonList) => {
-      this.apiService
-        .fetchDetailedPokemonData(pokemonList)
-        .subscribe((detailedPokemonList) => {
-          this.pokemonList = detailedPokemonList;
-        });
+  loadPreviusPage() {
+    if (this.page >= 20) {
+      this.page -= 20;
+      this.fetchPokemonList();
+    }
+  }
+
+  private fetchPokemonList() {
+    this.stateService.fetchPokemonList(this.page, 20).subscribe(() => {
+      this.stateService.pokemonList$.subscribe(
+        (pokemonList) => (this.pokemonList = pokemonList)
+      );
+      console.log(this.pokemonList);
     });
   }
 }

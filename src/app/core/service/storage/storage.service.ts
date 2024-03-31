@@ -1,24 +1,48 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { Pokemon, PokemonResults } from '../../model/pokemon';
 
 @Injectable({
   providedIn: 'root',
 })
-export class StorageService<T> {
-  storeName = 'tasks';
+export class StateService {
+  private pokemonListSubject: BehaviorSubject<Pokemon[]> = new BehaviorSubject<
+    Pokemon[]
+  >([]);
+  public pokemonList$: Observable<Pokemon[]> =
+    this.pokemonListSubject.asObservable();
 
-  constructor(@Inject('STORE_NAME') storeName: string) {
-    this.storeName = storeName;
+  constructor(private http: HttpClient) {}
+
+  fetchPokemonList(offset: number = 0, limit: number = 20): Observable<void> {
+    const url = `https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`;
+    return this.http.get<PokemonResults>(url).pipe(
+      map((data: PokemonResults) => data.results),
+      mergeMap((pokemonResults) =>
+        this.fetchDetailedPokemonData(pokemonResults)
+      ),
+      map((detailedPokemonList) => {
+        this.pokemonListSubject.next(detailedPokemonList);
+      })
+    );
   }
 
-  getStorage(): T[] {
-    return JSON.parse(localStorage.getItem(this.storeName) || '[]');
+  private fetchDetailedPokemonData(
+    pokemonList: { name: string; url: string }[]
+  ): Observable<Pokemon[]> {
+    return forkJoin(
+      pokemonList.map((pokemon) => this.http.get<Pokemon>(pokemon.url))
+    );
+  }
+  getPokemonById(id: number): Observable<Pokemon> {
+    const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+    return this.http.get<Pokemon>(url);
   }
 
-  setStorage(data: T[]) {
-    localStorage.setItem(this.storeName, JSON.stringify(data));
-  }
-
-  removeStorage() {
-    localStorage.removeItem(this.storeName);
+  getPokemonSpeciesDetailsById(id: number): Observable<any> {
+    const url = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
+    return this.http.get<any>(url);
   }
 }
