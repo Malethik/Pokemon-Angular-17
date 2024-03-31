@@ -1,4 +1,5 @@
-interface BackgroundCardForType {
+export interface BackgroundCardForType {
+  [key: string]: string;
   normal: string;
   fire: string;
   water: string;
@@ -19,29 +20,3 @@ interface BackgroundCardForType {
   fairy: string;
   stellar: string;
 }
-/*  backgroundColors: BackgroundCardForType = {
-   normal: 'white',
-   fire: 'red',
-   water: 'blue',
-   electric: 'yellow',
-   grass: 'green',
-   ice: 'lightblue',
-   fighting: 'brown',
-   poison: 'purple',
-   ground: 'sandybrown',
-   flying: 'skyblue',
-   psychic: 'violet',
-   bug: 'olive',
-   rock: 'gray',
-   ghost: 'darkgray',
-   dragon: 'slateblue',
-   dark: 'darkslategray',
-   steel: 'silver',
-   fairy: 'pink',
-   stellar: 'gold',
- };
- selectedType: keyof BackgroundCardForType = 'normal';
- setType(type: keyof BackgroundCardForType) {
-    this.selectedType = type;
-  }
- */

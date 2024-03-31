@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <address><p>©Daniele Quintiliani as Malethik® 2024</p></address>
+    <address><p>Powered by Daniele Quintiliani as Malethik 2024</p></address>
   `,
   styles: ``,
 })

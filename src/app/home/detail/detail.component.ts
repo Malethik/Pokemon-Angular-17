@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { NgIf, NgIfContext } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Pokemon } from '../../core/model/pokemon';
 import { StateService } from '../../core/service/storage/storage.service';
@@ -10,27 +9,36 @@ import { Species } from '../../core/model/species';
   standalone: true,
   imports: [DetailComponent],
   template: `
-    <div>
+    <div [style.background-color]="backgroundColor" class="detail">
       <h2>{{ this.pokemonDetails.name.toUpperCase() }}</h2>
       <img
         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/{{
           pokemonId
         }}.png"
-        alt="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/{{
-          pokemonId
-        }}.png"
+        alt="{{ this.pokemonDetails.name.toUpperCase() }}"
         height="100"
       />
-      <div hidden>
-        <p>color: {{ this.speciesDetail.color.name }}</p>
+
+      <div>
+        <p>
+          Color: {{ this.service.upFirstLetter(this.speciesDetail.color.name) }}
+        </p>
         <p>Legendary:{{ this.speciesDetail.is_legendary ? ' Yes' : ' No' }}</p>
         <p>Mythical:{{ this.speciesDetail.is_mythical ? ' Yes' : ' No' }}</p>
       </div>
       <div>
-        <p>Pokemon type:</p>
-        <p>{{ this.pokemonDetails.types[0].type.name }}</p>
+        <p>Type:</p>
+        <p>
+          {{
+            this.service.upFirstLetter(this.pokemonDetails.types[0].type.name)
+          }}
+        </p>
         @if (this.pokemonDetails.types.length > 1) {
-        <p>{{ this.pokemonDetails.types[1].type.name }}</p>
+        <p>
+          {{
+            this.service.upFirstLetter(this.pokemonDetails.types[1].type.name)
+          }}
+        </p>
         }
       </div>
       <div>
@@ -64,20 +72,32 @@ import { Species } from '../../core/model/species';
       </div>
       <div>
         <p>ABILITY</p>
-        <p>{{ this.pokemonDetails.abilities[0].ability.name }}</p>
+        <p>
+          {{
+            this.service.upFirstLetter(
+              this.pokemonDetails.abilities[0].ability.name
+            )
+          }}
+        </p>
         @if (this.pokemonDetails.abilities.length > 1) {
-        <p>{{ this.pokemonDetails.abilities[1].ability.name }}</p>
+        <p>
+          {{
+            this.service.upFirstLetter(
+              this.pokemonDetails.abilities[1].ability.name
+            )
+          }}
+        </p>
         }
       </div>
     </div>
   `,
-  styles: ``,
+  styleUrl: './detail.component.css',
 })
 export default class DetailComponent implements OnInit {
   pokemonId!: number;
   pokemonDetails!: Pokemon;
   speciesDetail!: Species;
-
+  backgroundColor: string = 'white';
   public service = inject(StateService);
 
   constructor(private route: ActivatedRoute) {}
@@ -88,6 +108,12 @@ export default class DetailComponent implements OnInit {
       this.service.getPokemonById(this.pokemonId).subscribe((pokemon) => {
         this.pokemonDetails = pokemon;
         console.log(this.pokemonDetails);
+        //
+        this.backgroundColor =
+          this.service.backgroundColors[
+            this.pokemonDetails.types[0].type.name
+          ] || 'white';
+        //
       });
       this.service
         .getPokemonSpeciesDetailsById(this.pokemonId)
