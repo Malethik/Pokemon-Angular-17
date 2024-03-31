@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { NgIf, NgIfContext } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Pokemon } from '../../core/model/pokemon';
 import { StateService } from '../../core/service/storage/storage.service';
@@ -20,15 +21,22 @@ import { Species } from '../../core/model/species';
         }}.png"
         height="100"
       />
+      <div hidden>
+        <p>color: {{ this.speciesDetail.color.name }}</p>
+        <p>Legendary:{{ this.speciesDetail.is_legendary ? ' Yes' : ' No' }}</p>
+        <p>Mythical:{{ this.speciesDetail.is_mythical ? ' Yes' : ' No' }}</p>
+      </div>
       <div>
         <p>Pokemon type:</p>
         <p>{{ this.pokemonDetails.types[0].type.name }}</p>
+        @if (this.pokemonDetails.types.length > 1) {
         <p>{{ this.pokemonDetails.types[1].type.name }}</p>
+        }
       </div>
       <div>
         <p>
           Description:
-          {{ this.speciesDetail.flavor_text_entries[0].flavor_text }}
+          {{ this.speciesDetail.flavor_text_entries[1].flavor_text }}
         </p>
       </div>
       <div>
@@ -53,6 +61,13 @@ import { Species } from '../../core/model/species';
             <p>SPEED:{{ this.pokemonDetails.stats[5].base_stat }}</p>
           </li>
         </ul>
+      </div>
+      <div>
+        <p>ABILITY</p>
+        <p>{{ this.pokemonDetails.abilities[0].ability.name }}</p>
+        @if (this.pokemonDetails.abilities.length > 1) {
+        <p>{{ this.pokemonDetails.abilities[1].ability.name }}</p>
+        }
       </div>
     </div>
   `,

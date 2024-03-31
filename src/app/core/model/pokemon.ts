@@ -32,6 +32,7 @@ export interface Pokemon {
   weaknesses: Type[];
   next_evolution?: Evolution[];
   prev_evolution?: Evolution[];
+  abilities: Ability2[];
 }
 export interface Stat {
   base_stat: number;
