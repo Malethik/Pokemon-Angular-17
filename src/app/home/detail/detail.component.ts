@@ -104,6 +104,7 @@ export default class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
+      console.log(this.pokemonDetails);
       this.pokemonId = params['id'];
       this.service.getPokemonById(this.pokemonId).subscribe((pokemon) => {
         this.pokemonDetails = pokemon;
